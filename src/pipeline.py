@@ -665,6 +665,9 @@ def run_pipeline(
             _record_failure(exc, ctx, state)
         finally:
             raise
+    finally:
+        if ctx.engine is not None:
+            ctx.engine.dispose()
 
 
 def run_from_cli_paths(

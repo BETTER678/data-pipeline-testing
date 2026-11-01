@@ -17,10 +17,12 @@ _run_id_var: ContextVar[str | None] = ContextVar("pipeline_run_id", default=None
 
 
 def set_run_id(run_id: str) -> None:
+    """Bind a run identifier to the current context."""
     _run_id_var.set(run_id)
 
 
 def current_run_id() -> str | None:
+    """Return the run identifier bound to the current context."""
     return _run_id_var.get()
 
 
@@ -71,6 +73,7 @@ def configure_logging(log_path: Path | None = None, level: str = "INFO") -> logg
 
 
 def get_logger(name: str) -> logging.Logger:
+    """Return the named logger used by pipeline modules."""
     return logging.getLogger(name)
 
 

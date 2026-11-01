@@ -286,11 +286,13 @@ def validate_target_frame(df: pd.DataFrame, entity: str) -> pd.DataFrame:
 
 
 def target_columns(entity: str) -> tuple[str, ...]:
+    """Return the ordered target columns for an entity."""
     schema = ENTITY_SCHEMAS[entity]
     return schema.source_columns + tuple(schema.derived_fields) + tuple(TARGET_LINEAGE_COLUMNS)
 
 
 def compiled_pattern(name: str) -> re.Pattern[str]:
+    """Return a compiled validation pattern by name."""
     patterns = {
         "id": ID_PATTERN,
         "email": EMAIL_PATTERN,

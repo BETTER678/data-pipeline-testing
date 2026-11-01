@@ -20,6 +20,7 @@ from src.generator import (  # noqa: E402
 
 
 def parse_args() -> argparse.Namespace:
+    """Parse command-line options."""
     settings = default_settings()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--preset", choices=["small", "large", "custom"], default="small")
@@ -37,6 +38,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> int:
+    """Generate the requested dataset and write its expected contract."""
     args = parse_args()
     if args.preset == "small":
         summary = generate_small(args.output_dir, args.expected_dir)

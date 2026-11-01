@@ -21,10 +21,10 @@ Expected outputs live in `data/expected/small_expected.json`, separate from
 | Suite | Tests | Focus |
 |---|---:|---|
 | Unit | 70 | CSV parsing/header checks, validation and boundary tables, dedup equivalence/conflicts, transformations, publishing/retry/verify, chunked lookups, reconciliation, reporting/monitoring |
-| Integration | 20 | Full small pipeline, happy/empty/correction paths, cross-batch parents, late payments, reconciliation rollback, cancellation, scalable accounting, missing source, schema drift, retry |
+| Integration | 21 | Full small pipeline, happy/empty/correction paths, cross-batch parents, late payments, reconciliation rollback, cancellation, database-initialization failure, scalable accounting, missing source, schema drift, retry |
 | Data quality | 60 | 18 named EC rule tests, parameterised boundary matrices, domain rules, foreign keys, totals, payments, free orders |
 | Regression | 5 | Expected-file drift, byte-deterministic small/large generation, rerun target snapshot, evidence sanitization/LF |
-| **Total** | **155** | |
+| **Total** | **156** | |
 
 Fixtures create isolated temporary directories and SQLite databases. The small
 end-to-end fixture uses the deterministic 79-row generator. In-memory databases
@@ -137,7 +137,7 @@ Plain suite:
 
 ```text
 $ .\.venv\Scripts\python.exe -m pytest -q
-155 passed in 39.00s
+156 passed in 46.53s
 ```
 
 Coverage run:
@@ -145,15 +145,14 @@ Coverage run:
 ```text
 $ .\.venv\Scripts\python.exe -m pytest -q --cov=src --cov-report=term \
     --cov-report=json:reports/coverage.json
-155 passed, 73 warnings in 63.65s
-TOTAL 2162 statements, 94 missed, 96% coverage
+156 passed in 69.38s (0:01:09)
+TOTAL 2164 statements, 94 missed, 96% coverage
 ```
 
-The 73 warnings were Python `ResourceWarning: unclosed database` messages from
-test-owned SQLAlchemy engines; the coverage-enabled run was slower and the
-garbage collector surfaced connections that a plain run did not report. There
-were **no test failures, errors, or skips**. A future cleanup can dispose every
-test engine explicitly; it does not affect pipeline correctness.
+The suite reports **no `ResourceWarning` messages**. The pipeline disposes its
+engine on every exit path, and the test harness tracks and disposes every
+SQLAlchemy engine created during a test. There were **no test failures, errors,
+or skips**.
 
 `reports/pytest_results.txt` contains the captured plain run;
 `reports/pytest_coverage_results.txt` contains the coverage run; and
@@ -169,28 +168,28 @@ of the test and coverage output are tracked in `docs/evidence/`.
 | `src/generator.py` | 257 | 0 | 100% |
 | `src/ingestion.py` | 113 | 14 | 88% |
 | `src/monitoring.py` | 163 | 17 | 90% |
-| `src/pipeline.py` | 261 | 10 | 96% |
+| `src/pipeline.py` | 263 | 10 | 96% |
 | `src/publishing.py` | 325 | 12 | 96% |
 | `src/reconciliation.py` | 153 | 4 | 97% |
 | `src/reporting.py` | 141 | 2 | 99% |
 | `src/schemas.py` | 98 | 3 | 97% |
 | `src/transformations.py` | 89 | 4 | 96% |
 | `src/validation.py` | 329 | 10 | 97% |
-| **Total** | **2,162** | **94** | **96%** |
+| **Total** | **2,164** | **94** | **96%** |
 
 The remaining gaps are mostly defensive/unreachable branches, reporting edge
 paths, and config overrides rather than untested core behaviour.
 
 ## 9.1 Fresh-checkout verification
 
-A throwaway Git repository containing only the source tree, the tracked expected
-contract, and `docs/evidence/` was committed and cloned into an empty directory.
-The clone contained no `.venv`, `data/raw/`, `data/processed/`, or `reports/`.
-Following the README setup from that clone (create `.venv`, install
-`requirements.txt`, run tests) produced:
+A fresh clone containing the source tree, the tracked small sample under
+`data/raw/`, the expected contract, and `docs/evidence/` was created in an empty
+directory. The clone contained no `.venv`, `data/processed/`, `data/rejected/`,
+`data/benchmark/`, or `reports/`. Following the README setup from that clone
+(create `.venv`, install `requirements-dev.txt`, run tests) produced:
 
 ```text
-155 passed in 40.53s
+156 passed
 ```
 
 The README quickstart was then executed twice from the same clone. The first run

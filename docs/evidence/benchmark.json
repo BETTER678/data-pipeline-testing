@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-01T07:42:50.212316+00:00",
+  "generated_at": "2026-11-01T16:43:10.766022+00:00",
   "environment": {
     "python": "3.13.15",
     "platform": "Windows-11-10.0.26200-SP0",
@@ -10,11 +10,11 @@
     {
       "rows": 10000,
       "unique_keys": 8500,
-      "vectorised_seconds_median": 0.6213,
-      "vectorised_seconds_stdev": 0.0079,
-      "naive_seconds_median": 5.6309,
-      "naive_seconds_stdev": 0.0646,
-      "speedup_x": 9.06,
+      "vectorised_seconds_median": 0.3534,
+      "vectorised_seconds_stdev": 0.0049,
+      "naive_seconds_median": 4.5046,
+      "naive_seconds_stdev": 0.6575,
+      "speedup_x": 12.75,
       "vectorised_peak_mb": 8.34,
       "naive_peak_mb": 6.7,
       "removed_duplicates": 1500,
@@ -29,11 +29,11 @@
     {
       "rows": 100000,
       "unique_keys": 85000,
-      "vectorised_seconds_median": 6.2136,
-      "vectorised_seconds_stdev": 0.5334,
-      "naive_seconds_median": 56.6036,
-      "naive_seconds_stdev": 3.4346,
-      "speedup_x": 9.11,
+      "vectorised_seconds_median": 5.2835,
+      "vectorised_seconds_stdev": 0.2936,
+      "naive_seconds_median": 48.6275,
+      "naive_seconds_stdev": 0.5564,
+      "speedup_x": 9.2,
       "vectorised_peak_mb": 82.77,
       "naive_peak_mb": 67.21,
       "removed_duplicates": 15000,
@@ -49,8 +49,8 @@
   "pipeline": {
     "label": "100k",
     "source_rows": 101938,
-    "wall_seconds": 34.811,
-    "pipeline_reported_seconds": 34.6544,
+    "wall_seconds": 26.914,
+    "pipeline_reported_seconds": 26.8497,
     "status": "PARTIAL_SUCCESS",
     "counts": {
       "customers": 1000,
@@ -70,15 +70,15 @@
       "payments": 24000
     },
     "counts_match": true,
-    "throughput_rows_per_second": 2928.4,
+    "throughput_rows_per_second": 3787.5,
     "run_id": "benchmark-large"
   },
   "pipeline_runs": [
     {
       "label": "small",
       "source_rows": 79,
-      "wall_seconds": 2.182,
-      "pipeline_reported_seconds": 2.1641,
+      "wall_seconds": 1.995,
+      "pipeline_reported_seconds": 1.977,
       "status": "PARTIAL_SUCCESS",
       "counts": {
         "customers": 7,
@@ -98,14 +98,14 @@
         "payments": 7
       },
       "counts_match": true,
-      "throughput_rows_per_second": 36.2,
+      "throughput_rows_per_second": 39.6,
       "run_id": "benchmark-small"
     },
     {
       "label": "10k",
       "source_rows": 10202,
-      "wall_seconds": 4.907,
-      "pipeline_reported_seconds": 4.827,
+      "wall_seconds": 2.816,
+      "pipeline_reported_seconds": 2.7904,
       "status": "PARTIAL_SUCCESS",
       "counts": {
         "customers": 100,
@@ -125,14 +125,14 @@
         "payments": 2400
       },
       "counts_match": true,
-      "throughput_rows_per_second": 2079.2,
+      "throughput_rows_per_second": 3623.4,
       "run_id": "benchmark-10k"
     },
     {
       "label": "100k",
       "source_rows": 101938,
-      "wall_seconds": 34.811,
-      "pipeline_reported_seconds": 34.6544,
+      "wall_seconds": 26.914,
+      "pipeline_reported_seconds": 26.8497,
       "status": "PARTIAL_SUCCESS",
       "counts": {
         "customers": 1000,
@@ -152,7 +152,7 @@
         "payments": 24000
       },
       "counts_match": true,
-      "throughput_rows_per_second": 2928.4,
+      "throughput_rows_per_second": 3787.5,
       "run_id": "benchmark-large"
     }
   ]

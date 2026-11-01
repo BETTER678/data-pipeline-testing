@@ -85,6 +85,7 @@ def empty_rejected_frame(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def concat_rejections(frames: Sequence[pd.DataFrame]) -> pd.DataFrame:
+    """Concatenate non-empty rejection frames into one table."""
     usable = [frame for frame in frames if frame is not None and not frame.empty]
     if not usable:
         return pd.DataFrame()
@@ -701,6 +702,7 @@ def check_payment_amounts(
 
 
 def merge_rule_counts(*mappings: Mapping[str, int]) -> dict[str, int]:
+    """Merge rule-count mappings into sorted totals."""
     merged: Counter[str] = Counter()
     for mapping in mappings:
         for rule, count in mapping.items():

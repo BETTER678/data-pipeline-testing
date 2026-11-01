@@ -27,10 +27,14 @@ From `reports/benchmark.json`:
 | NumPy | 2.3.5 |
 | Database | SQLite via SQLAlchemy, local file |
 | Repetitions | 3, median reported |
+| Recorded | 2026-11-01 |
 
 No CPU pinning, isolated container, or controlled load generator was used. Treat
 absolute timings as machine-specific evidence; use the same command on your
-machine for comparison.
+machine for comparison. The figures below are one recorded reference run, not a
+guaranteed result. An independent audit run on the same commit measured roughly
+33.7, 2,380.2, and 4,118.4 rows/s for the small, 10k, and 100k pipelines; that
+spread is why these numbers are labeled reference runs rather than guarantees.
 
 ## 3. Command and methodology
 
@@ -68,7 +72,10 @@ For the pipeline:
 ### Small end-to-end
 
 The curated sample has 79 source rows and 32 accepted target rows. It exercises
-all edge cases but is dominated by startup, reporting, and plotting overhead.
+the data-quality scenarios represented in the sample, but not operational
+recovery cases such as retry, cancellation, empty batches, or schema drift;
+those are covered by integration tests. Small-run timing is dominated by
+startup, reporting, and plotting overhead.
 Recorded final runs:
 
 | Run | Source rows | Published | Unchanged | Duration | Nominal rows/s |
@@ -122,28 +129,29 @@ Median of three repetitions:
 
 | Rows | Vectorized | Naive reference | Speedup | Vector peak | Naive peak |
 |---:|---:|---:|---:|---:|---:|
-| 10,000 | 0.6213 s | 5.6309 s | **9.06x** | 8.34 MB | 6.70 MB |
-| 100,000 | 6.2136 s | 56.6036 s | **9.11x** | 82.77 MB | 67.21 MB |
+| 10,000 | 0.3534 s | 4.5046 s | **12.75x** | 8.34 MB | 6.70 MB |
+| 100,000 | 5.2835 s | 48.6275 s | **9.20x** | 82.77 MB | 67.21 MB |
 
 Variability:
 
 | Rows | Vector stdev | Naive stdev |
 |---:|---:|---:|
-| 10,000 | 0.0079 s | 0.0646 s |
-| 100,000 | 0.5334 s | 3.4346 s |
+| 10,000 | 0.0049 s | 0.6575 s |
+| 100,000 | 0.2936 s | 0.5564 s |
 
-The measured speedup varies with machine load (9.06x at 10k and 9.11x at
-100k in this run), but both sizes show a large, repeatable advantage. The
-earlier implementation was substantially slower; the important claim is not a
-fixed multiplier, but that the production path is faster at both sizes with
-equivalent canonical output and duplicate classification.
+The measured speedup varies with machine load (12.75x at 10k and 9.20x at
+100k in this run; an independent audit measured 9.00x and 5.85x), but both sizes
+show a large, repeatable advantage. The earlier implementation was substantially
+slower; the important claim is not a fixed multiplier, but that the production
+path is faster at both sizes with equivalent canonical output and duplicate
+classification.
 
 ## 6. End-to-end pipeline results
 
 ```text
-pipeline[small] rows=79     wall=2.18s  throughput=36.2 rows/s    status=PARTIAL_SUCCESS
-pipeline[10k]   rows=10,202 wall=4.91s  throughput=2,079.2 rows/s status=PARTIAL_SUCCESS
-pipeline[100k]  rows=101,938 wall=34.81s throughput=2,928.4 rows/s status=PARTIAL_SUCCESS
+pipeline[small] rows=79     wall=1.99s  throughput=39.6 rows/s    status=PARTIAL_SUCCESS
+pipeline[10k]   rows=10,202 wall=2.82s  throughput=3,623.4 rows/s status=PARTIAL_SUCCESS
+pipeline[100k]  rows=101,938 wall=26.91s throughput=3,787.5 rows/s status=PARTIAL_SUCCESS
 ```
 
 Recorded values:
@@ -151,9 +159,9 @@ Recorded values:
 | Metric | Small run | 10k run | 100k run |
 |---|---:|---:|---:|
 | Source/input rows | 79 | 10,202 | 101,938 |
-| Wall seconds | 2.182 | 4.907 | 34.811 |
-| Reported pipeline seconds | 2.1641 | 4.8270 | 34.6544 |
-| Throughput | 36.2 rows/s | 2,079.2 rows/s | 2,928.4 rows/s |
+| Wall seconds | 1.995 | 2.816 | 26.914 |
+| Reported pipeline seconds | 1.9770 | 2.7904 | 26.8497 |
+| Throughput | 39.6 rows/s | 3,623.4 rows/s | 3,787.5 rows/s |
 | Status | `PARTIAL_SUCCESS` | `PARTIAL_SUCCESS` | `PARTIAL_SUCCESS` |
 | Target counts match generated expectation | Yes | Yes | Yes |
 | Customers | 7 | 100 | 1,000 |
@@ -192,8 +200,8 @@ timestamps this repeatedly walks groups and was the dominant cost.
 
 Compared with the retained row-wise reference implementing the same policy:
 
-- **10k rows:** 5.6309 s -> 0.6213 s, **9.06x faster**;
-- **100k rows:** 56.6036 s -> 6.2136 s, **9.11x faster**.
+- **10k rows:** 4.5046 s -> 0.3534 s, **12.75x faster**;
+- **100k rows:** 48.6275 s -> 5.2835 s, **9.20x faster**.
 
 The benchmark checks equivalent canonical IDs/versions/status, duplicate counts,
 and conflict counts at both sizes. This is the required "reasonable
@@ -202,7 +210,7 @@ optimization" with measured evidence, not an unsupported claim.
 ### Trade-off
 
 At 100k rows the vectorized path peaked at 82.77 MB traced Python allocations vs
-67.21 MB for the naive path (about 1.23x more memory) while running 9.11x faster.
+67.21 MB for the naive path (about 1.23x more memory) while running 9.20x faster.
 That is a sensible time-for-memory trade-off for this batch size. Memory is
 reported only for the dedup hot spot; end-to-end memory is not claimed because
 SQLAlchemy, matplotlib, and report construction make a single number easy to

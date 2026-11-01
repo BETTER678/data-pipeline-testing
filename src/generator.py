@@ -388,6 +388,7 @@ def _small_expected_entities() -> dict[str, dict[str, Any]]:
 
 
 def small_expected() -> dict[str, Any]:
+    """Return the deterministic expected-answer contract for the curated sample."""
     return {
         "dataset": "small",
         "seed": 42,
@@ -414,6 +415,7 @@ def small_expected() -> dict[str, Any]:
 def generate_small(
     output_dir: str | Path, expected_dir: str | Path | None = None
 ) -> dict[str, Any]:
+    """Generate the deterministic 79-row sample and expected contract."""
     output_dir = Path(output_dir)
     frames = _small_frames()
     for entity, (columns, rows) in frames.items():

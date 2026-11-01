@@ -10,7 +10,7 @@ Execution evidence:
 
 ```text
 .\.venv\Scripts\python.exe -m pytest -q
-155 passed in 39.00s
+156 passed in 46.53s
 ```
 
 The captured output is tracked at `docs/evidence/pytest_results.txt`. Every row

@@ -45,6 +45,7 @@ def _clean_text(series: pd.Series, *, lower: bool = False, upper: bool = False) 
 
 
 def transform_customers(frame: pd.DataFrame) -> pd.DataFrame:
+    """Normalize and derive target fields for customer rows."""
     out = frame.copy()
     out["customer_id"] = _clean_text(out["customer_id"])
     out["name"] = _clean_text(out["name"])
@@ -56,6 +57,7 @@ def transform_customers(frame: pd.DataFrame) -> pd.DataFrame:
 
 
 def transform_products(frame: pd.DataFrame) -> pd.DataFrame:
+    """Normalize and derive target fields for product rows."""
     out = frame.copy()
     out["product_id"] = _clean_text(out["product_id"])
     out["name"] = _clean_text(out["name"])
@@ -67,6 +69,7 @@ def transform_products(frame: pd.DataFrame) -> pd.DataFrame:
 
 
 def transform_orders(frame: pd.DataFrame) -> pd.DataFrame:
+    """Normalize and derive target fields for order rows."""
     out = frame.copy()
     out["order_id"] = _clean_text(out["order_id"])
     out["customer_id"] = _clean_text(out["customer_id"])
@@ -81,6 +84,7 @@ def transform_orders(frame: pd.DataFrame) -> pd.DataFrame:
 
 
 def transform_order_items(frame: pd.DataFrame) -> pd.DataFrame:
+    """Normalize and derive target fields for order-item rows."""
     out = frame.copy()
     out["item_id"] = _clean_text(out["item_id"])
     out["order_id"] = _clean_text(out["order_id"])
@@ -93,6 +97,7 @@ def transform_order_items(frame: pd.DataFrame) -> pd.DataFrame:
 
 
 def transform_payments(frame: pd.DataFrame) -> pd.DataFrame:
+    """Normalize and derive target fields for payment rows."""
     out = frame.copy()
     out["payment_id"] = _clean_text(out["payment_id"])
     out["order_id"] = _clean_text(out["order_id"])

@@ -16,6 +16,7 @@ from src.pipeline import run_pipeline  # noqa: E402
 
 
 def parse_args() -> argparse.Namespace:
+    """Parse command-line options."""
     settings = default_settings()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -44,6 +45,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> int:
+    """Run the pipeline from command-line paths."""
     args = parse_args()
     data_dir = args.data_dir
     settings = PipelineSettings(

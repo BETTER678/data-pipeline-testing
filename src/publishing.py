@@ -253,6 +253,7 @@ def get_engine(db_url: str) -> Engine:
 
 
 def init_db(engine: Engine) -> Engine:
+    """Create warehouse and audit tables if they do not already exist."""
     with engine.begin() as connection:
         for entity in ENTITY_ORDER:
             connection.execute(text(DDL[entity]))
@@ -832,6 +833,7 @@ def publish_run(
 # Retry
 # ---------------------------------------------------------------------------
 def is_transient(error: Exception) -> bool:
+    """Return whether a publish error is safe to retry."""
     if isinstance(error, TransientPublishError):
         return True
     if isinstance(error, OperationalError):
@@ -872,6 +874,7 @@ def retry_call(
 # Run metadata
 # ---------------------------------------------------------------------------
 def save_run_metrics(metrics: dict[str, Any], engine: Engine) -> None:
+    """Persist one run's metrics and status to the warehouse."""
     payload = {
         "run_id": metrics["run_id"],
         "pipeline_version": metrics["pipeline_version"],
@@ -909,6 +912,7 @@ def save_run_metrics(metrics: dict[str, Any], engine: Engine) -> None:
 
 
 def table_counts(engine: Engine) -> dict[str, int]:
+    """Return committed row counts for each warehouse entity."""
     counts: dict[str, int] = {}
     with engine.connect() as connection:
         for entity in ENTITY_ORDER:

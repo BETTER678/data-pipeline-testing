@@ -4,8 +4,8 @@ This directory is a small, reviewable evidence package for the submission. The
 full generated `reports/`, `data/processed/`, and `data/rejected/` trees are
 machine-local and `.gitignore`d. Text and JSON files here are copied from a
 successful run, converted to UTF-8, and sanitized so paths read `<project>` or
-`<local>` instead of a developer's absolute path. The screenshot is a visual
-rendering of `pytest_results.txt`; the text file remains canonical.
+`<local>` instead of a developer's absolute path. The screenshot is an earlier
+visual reference; `pytest_results.txt` remains the canonical current result.
 
 Provenance:
 
@@ -26,22 +26,25 @@ Provenance:
 | `verification_demo-small-001.json`, `verification_demo-small-002.json` | Static expected-output verification: 45/45 checks per run. |
 | `final_database_checks.json` | Independent SQLite checks: PK duplicates, FK violations, aggregates, audit counts, occurrence ranges. |
 | `pytest_results.txt` | Plain final test run. |
-| `screenshots/final-test-run.png` | Visual rendering of `pytest_results.txt`; the text file is canonical. |
+| `screenshots/final-test-run.png` | Earlier 155-test visual reference; the current text evidence is canonical. |
 | `pytest_coverage_results.txt` | Final coverage run and per-module table. |
 | `lint_results.txt` | `ruff check` and `black --check` output. |
 | `benchmark.json` | Dedup medians at 10k/100k plus end-to-end small/10k/100k results. |
 
-Final test evidence: `155 passed`; coverage run `96%` (2,162 statements, 94
-missed), with 73 SQLite `ResourceWarning`s and no failures. The exact captured
-outputs are in `pytest_results.txt` and `pytest_coverage_results.txt`. The
-screenshot is a supplementary rendering of the same recorded pytest output;
-the plain-text file remains the source of truth.
+Final test evidence: `156 passed`; coverage run `96%` (2,164 statements, 94
+missed), with no SQLite `ResourceWarning`s and no failures. The pipeline disposes
+its SQLAlchemy engine on every exit path, and the test harness tracks and
+disposes every engine created during a test. The exact captured outputs are in
+`pytest_results.txt` and `pytest_coverage_results.txt`. The screenshot is an
+earlier 155-test visual reference; the plain-text files remain the source of
+truth.
 
-A fresh Git checkout containing only tracked files (including the expected
-contract and this evidence directory, but no generated data or `.venv`) was
-cloned and followed the README setup: `155 passed in 40.53s`. Its two quickstart
-runs each passed 45/45 verification checks, with the second publishing zero rows
-and reporting 32 unchanged. See `docs/testing.md` section 9.1.
+A fresh Git checkout containing only tracked files (including the small sample
+under `data/raw/`, the expected contract, and this evidence directory, but no
+generated data or `.venv`) was cloned and followed the README setup:
+`156 passed` (duration varies by machine). Its two quickstart runs each passed
+45/45 verification checks, with the second publishing zero rows and reporting 32
+unchanged. See `docs/testing.md` section 9.1.
 
 ## Recorded results
 
@@ -83,14 +86,15 @@ Benchmark medians from `benchmark.json`:
 
 | Measurement | 10k | 100k |
 |---|---:|---:|
-| Vectorized dedup | 0.6213 s | 6.2136 s |
-| Naive dedup | 5.6309 s | 56.6036 s |
-| Speedup | 9.06x | 9.11x |
-| End-to-end pipeline | 4.907 s / 2,079.2 rows/s | 34.811 s / 2,928.4 rows/s |
+| Vectorized dedup | 0.3534 s | 5.2835 s |
+| Naive dedup | 4.5046 s | 48.6275 s |
+| Speedup | 12.75x | 9.20x |
+| End-to-end pipeline | 2.816 s / 3,623.4 rows/s | 26.914 s / 3,787.5 rows/s |
 | Target counts matched | Yes | Yes |
 
-The end-to-end small run processed 79 rows in 2.182 s (36.2 rows/s) and also
-matched target counts.
+The end-to-end small run processed 79 rows in 1.995 s (39.6 rows/s) and also
+matched target counts. These are one recorded reference run, not guarantees;
+absolute timings and speedups vary with machine load.
 
 ## Reproduce
 

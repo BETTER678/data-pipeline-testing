@@ -13,10 +13,35 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+import src.publishing as publishing  # noqa: E402
+
+_ORIGINAL_GET_ENGINE = publishing.get_engine
+_TEST_ENGINES = []
+
+
+def _tracking_get_engine(*args, **kwargs):
+    """Track engines created during a test so they can be disposed."""
+
+    engine = _ORIGINAL_GET_ENGINE(*args, **kwargs)
+    _TEST_ENGINES.append(engine)
+    return engine
+
+
+publishing.get_engine = _tracking_get_engine
+
 from src.config import PipelineSettings  # noqa: E402
 from src.generator import generate_small  # noqa: E402
 from src.pipeline import run_pipeline  # noqa: E402
 from src.publishing import get_engine, init_db  # noqa: E402
+
+
+@pytest.fixture(autouse=True)
+def _dispose_test_engines():
+    """Dispose SQLAlchemy engines created by each test."""
+
+    yield
+    while _TEST_ENGINES:
+        _TEST_ENGINES.pop().dispose()
 
 
 @pytest.fixture()
@@ -63,4 +88,5 @@ def empty_engine():
 
     engine = get_engine("sqlite://")
     init_db(engine)
-    return engine
+    yield engine
+    engine.dispose()

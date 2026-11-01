@@ -68,6 +68,7 @@ def write_processed_snapshots(
     processed_dir: Path,
     run_id: str,
 ) -> dict[str, Path]:
+    """Write accepted per-run and latest CSV snapshots."""
     run_dir = _ensure(Path(processed_dir) / run_id)
     outputs: dict[str, Path] = {}
     for entity in ENTITIES:
@@ -133,6 +134,7 @@ def write_quarantine_csv(
     rejected_dir: Path,
     run_id: str,
 ) -> Path:
+    """Write the run's quarantine rows to a CSV artifact."""
     rejected_dir = _ensure(Path(rejected_dir))
     path = rejected_dir / f"quarantine_{run_id}.csv"
     combined = _combined_rejects(rejected_by_entity)
@@ -177,6 +179,7 @@ def write_duplicates_csv(
     rejected_dir: Path,
     run_id: str,
 ) -> Path:
+    """Write the run's duplicate evidence rows to a CSV artifact."""
     rejected_dir = _ensure(Path(rejected_dir))
     path = rejected_dir / f"duplicates_{run_id}.csv"
     combined = _combined_rejects(duplicates_by_entity)
@@ -244,6 +247,7 @@ def write_dq_report(
     entity_metrics: Mapping[str, Mapping[str, Any]],
     reports_dir: Path,
 ) -> dict[str, Path]:
+    """Write the data-quality JSON and CSV reports."""
     reports_dir = _ensure(Path(reports_dir))
     entities = _dq_entities(entity_metrics)
     totals = _dq_totals(entities)
@@ -271,6 +275,7 @@ def write_dq_report(
 def write_dq_chart(
     entities: Mapping[str, Mapping[str, Any]], reports_dir: Path, run_id: str
 ) -> Path | None:
+    """Render the optional data-quality summary chart."""
     try:
         import matplotlib
 
@@ -308,6 +313,7 @@ def write_failure_report(
     error: BaseException | str,
     context: Mapping[str, Any] | None = None,
 ) -> Path:
+    """Write a machine-readable failure report for a run."""
     reports_dir = _ensure(Path(reports_dir))
     path = reports_dir / f"failure_{run_id}.json"
     payload = {

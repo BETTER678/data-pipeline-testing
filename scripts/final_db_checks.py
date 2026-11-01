@@ -32,6 +32,7 @@ def _scalar(connection, sql: str):
 
 
 def collect_checks(db_path: Path) -> dict:
+    """Collect independent database integrity checks."""
     engine = get_engine(f"sqlite:///{db_path.as_posix()}")
     with engine.connect() as connection:
         row_counts = {
@@ -164,6 +165,7 @@ def collect_checks(db_path: Path) -> dict:
 
 
 def main() -> int:
+    """Run the database checks and write JSON output."""
     settings = default_settings()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--db-path", type=Path, default=settings.db_path)

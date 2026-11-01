@@ -128,6 +128,7 @@ def _peak_memory_mb(func) -> tuple[float, Any]:
 
 
 def dedup_benchmark(sizes: list[int], repeat: int) -> list[dict[str, Any]]:
+    """Run the vectorized versus naive deduplication benchmark."""
     results: list[dict[str, Any]] = []
     for size in sizes:
         frame = _synthetic_orders(size)
@@ -304,6 +305,7 @@ def small_pipeline_benchmark() -> dict[str, Any]:
 
 
 def parse_args() -> argparse.Namespace:
+    """Parse command-line options."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--sizes", nargs="+", type=int, default=[10_000, 100_000])
     parser.add_argument("--repeat", type=int, default=3)
@@ -321,6 +323,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> int:
+    """Run the benchmark and write its JSON report."""
     args = parse_args()
     if args.repeat < 1:
         raise SystemExit("--repeat must be >= 1")

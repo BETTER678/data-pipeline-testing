@@ -84,7 +84,7 @@ It is also a common evaluation scenario, so the design is easy to explain.
 - Structured JSONL logs, run metrics, DQ reports, reconciliation reports, and
   optional DQ chart.
 - Reproducible 79-row curated dataset and seeded 10k/100k-row generator.
-- 155 automated tests spanning unit, integration, data-quality, and regression
+- 156 automated tests spanning unit, integration, data-quality, and regression
   suites.
 - Reproducible benchmark comparing vectorized and naive deduplication plus
   end-to-end small, 10k, and 100k runs.
@@ -183,11 +183,12 @@ data_pipeline_testing/
 `-- README.md
 ```
 
-Generated warehouse inputs and run artifacts (`data/raw/`, `data/processed/`,
-`data/rejected/`, `data/benchmark/`, `reports/`), caches, and `.venv/` are
-excluded by `.gitignore`. The expected-answer contract at
-`data/expected/small_expected.json` and the sanitized `docs/evidence/` package
-are deliberately tracked. `.gitattributes` normalizes tracked text files to LF.
+The small sample under `data/raw/` is intentionally tracked so a fresh checkout
+can reproduce the quickstart. Generated `data/processed/`, `data/rejected/`,
+`data/benchmark/`, `reports/`, caches, and `.venv/` are excluded by `.gitignore`.
+The expected-answer contract at `data/expected/small_expected.json` and the
+sanitized `docs/evidence/` package are deliberately tracked. `.gitattributes`
+normalizes tracked text files to LF.
 
 ## 8. Source and target schema overview
 
@@ -276,16 +277,17 @@ The database and generated run artifacts are local state. To start from zero:
 ```powershell
 Remove-Item -Recurse -Force data\processed\* -ErrorAction SilentlyContinue
 Remove-Item -Recurse -Force data\rejected\* -ErrorAction SilentlyContinue
-Remove-Item -Recurse -Force data\raw\* -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force data\benchmark\* -ErrorAction SilentlyContinue
 Remove-Item -Recurse -Force reports\* -ErrorAction SilentlyContinue
 ```
 
-This removes the generated raw sample, warehouse, processed and rejected
-snapshots, run reports, logs, and benchmark output. The expected contract at
-`data/expected/small_expected.json` is tracked and preserved; `generate_data.py`
-regenerates it deterministically as well. Tracked evidence under `docs/evidence/`
-is never part of this reset. The verification script uses global audit counts, so
-a historical run can be rechecked after a rerun.
+This removes the warehouse, processed and rejected snapshots, benchmark
+inputs/outputs, run reports, and logs. The tracked small sample under
+`data/raw/` and the expected contract at `data/expected/small_expected.json`
+are preserved; `generate_data.py --preset small` regenerates the sample
+deterministically if it is deleted. Tracked evidence under `docs/evidence/` is
+never part of this reset. The verification script uses global audit counts, so a
+historical run can be rechecked after a rerun.
 
 ## 11. Generate the small sample
 
@@ -388,9 +390,9 @@ Alternatively, generate and run a large batch manually:
   --run-id large-manual
 ```
 
-The reference small run processed 79 rows in 2.182 seconds (36.2 rows/s); the
-10k pipeline processed 10,202 rows in 4.907 seconds (2,079.2 rows/s); the 100k
-pipeline processed 101,938 rows in 34.811 seconds (2,928.4 rows/s). All three
+The reference small run processed 79 rows in 1.995 seconds (39.6 rows/s); the
+10k pipeline processed 10,202 rows in 2.816 seconds (3,623.4 rows/s); the 100k
+pipeline processed 101,938 rows in 26.914 seconds (3,787.5 rows/s). All three
 ended `PARTIAL_SUCCESS` and matched target counts exactly. For the 100k run:
 1,000 customers, 500 products, 24,000 orders, 48,054 items, 24,000 payments.
 See `docs/performance.md`.
@@ -411,21 +413,25 @@ With coverage and machine-readable coverage output:
 Recorded final result:
 
 ```text
-155 passed in 39.00s
+156 passed in 46.53s
 ```
 
-![Recorded final pytest run: 155 passed in 39.00 seconds](docs/evidence/screenshots/final-test-run.png)
+Duration varies by machine. The current recorded output is in
+`docs/evidence/pytest_results.txt`.
 
-*Visual rendering of the recorded run above. The canonical text is
+![Earlier reference pytest run: 155 passed in 39.00 seconds](docs/evidence/screenshots/final-test-run.png)
+
+*Earlier visual reference. The canonical current output is the text file
 `docs/evidence/pytest_results.txt`; the image is supplementary.*
 
-Suite composition: 70 unit tests, 20 integration tests, 60 data-quality tests,
-and 5 regression tests. Coverage is 96% (2,162 statements, 94 missed); the
-coverage-enabled run completed with 73 `ResourceWarning` messages from
-test-owned SQLite connections and no failures, errors, or skips. Coverage and
-warnings are refreshed on each release run and recorded in `docs/testing.md` and
-`docs/evidence/pytest_coverage_results.txt`. Test details and the full
-requirement-to-test matrix are in `docs/testing.md` and
+Suite composition: 70 unit tests, 21 integration tests, 60 data-quality tests,
+and 5 regression tests. Coverage is 96% (2,164 statements, 94 missed); the
+coverage-enabled run completed with no `ResourceWarning` messages and no
+failures, errors, or skips. The pipeline disposes its engine on every exit path,
+and the test harness tracks and disposes every SQLAlchemy engine created during
+a test. Coverage and warnings are refreshed on each release run and recorded in
+`docs/testing.md` and `docs/evidence/pytest_coverage_results.txt`. Test details
+and the full requirement-to-test matrix are in `docs/testing.md` and
 `docs/edge_case_matrix.md`.
 
 ## 15. Run the performance benchmark
@@ -434,17 +440,18 @@ requirement-to-test matrix are in `docs/testing.md` and
 .\.venv\Scripts\python.exe scripts\benchmark.py --pipeline --repeat 3
 ```
 
-Measured on the reference Windows environment, medians of three repetitions:
+Measured on the reference Windows environment, medians of three repetitions
+(recorded 2026-11-01; timings vary with machine load):
 
 | Dataset | Vectorized dedup | Naive reference | Speedup | Peak Python allocation |
 |---|---:|---:|---:|---:|
-| 10,000 rows | 0.6213 s | 5.6309 s | 9.06x | 8.34 MB vs 6.70 MB |
-| 100,000 rows | 6.2136 s | 56.6036 s | 9.11x | 82.77 MB vs 67.21 MB |
+| 10,000 rows | 0.3534 s | 4.5046 s | 12.75x | 8.34 MB vs 6.70 MB |
+| 100,000 rows | 5.2835 s | 48.6275 s | 9.20x | 82.77 MB vs 67.21 MB |
 
 The vectorized implementation was checked against the naive reference for
 equivalent canonical rows, duplicate counts, and conflicts on both sizes.
-End-to-end small 79 rows: 2.182 s, 36.2 rows/s. End-to-end 10,202 rows: 4.907 s,
-2,079.2 rows/s. End-to-end 101,938 rows: 34.811 s, 2,928.4 rows/s. Fixed
+End-to-end small 79 rows: 1.995 s, 39.6 rows/s. End-to-end 10,202 rows: 2.816 s,
+3,623.4 rows/s. End-to-end 101,938 rows: 26.914 s, 3,787.5 rows/s. Fixed
 startup/reporting overhead dominates throughput at the small size.
 Machine-readable evidence: `reports/benchmark.json` locally and
 `docs/evidence/benchmark.json` in the tracked evidence package. Full methodology
@@ -651,10 +658,10 @@ Incremental-load rules:
 | Idempotent rerun | `demo-small-002`, 0 published / 32 unchanged |
 | Late-arriving records | `test_ec11_late_arriving_record`, history archive |
 | Logging, metrics, run reports | `src/monitoring.py`, `reports/runs.jsonl`, `pipeline_runs` |
-| Unit/integration/DQ/regression tests | 155 passing tests; 96% coverage in `docs/evidence/pytest_coverage_results.txt` |
+| Unit/integration/DQ/regression tests | 156 passing tests; 96% coverage in `docs/evidence/pytest_coverage_results.txt` |
 | 18 required edge cases | `docs/edge_case_matrix.md` |
 | Domain-specific edge cases | order total, payment, missing items, overpayment, free order, cross-batch parent references |
 | Reconciliation and aggregates | `reports/reconciliation_*.json`, `final_database_checks.json` |
-| Performance measured and optimized | `reports/benchmark.json`, 9.06x at 10k and 9.11x at 100k, plus small/10k/100k end-to-end runs |
+| Performance measured and optimized | `reports/benchmark.json`, 12.75x at 10k and 9.20x at 100k, plus small/10k/100k end-to-end runs |
 | Clean-environment documentation | this README, pinned `requirements.txt`, `requirements-dev.txt` |
 | Public execution evidence | `docs/evidence/README.md` and sanitized JSON/text evidence |

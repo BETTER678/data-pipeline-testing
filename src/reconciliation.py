@@ -416,6 +416,7 @@ def build_reconciliation(
 def write_reconciliation_report(
     report: Mapping[str, Any], reports_dir: Path, run_id: str
 ) -> dict[str, Path]:
+    """Write reconciliation JSON and CSV artifacts for a run."""
     reports_dir = Path(reports_dir)
     reports_dir.mkdir(parents=True, exist_ok=True)
     json_path = reports_dir / f"reconciliation_{run_id}.json"
@@ -448,11 +449,13 @@ def write_reconciliation_report(
 # Small helpers used by tests and evidence scripts
 # ---------------------------------------------------------------------------
 def query_published_counts(engine: Engine) -> dict[str, int]:
+    """Return committed row counts for each target entity."""
     with engine.connect() as connection:
         return {entity: _count(connection, f"SELECT COUNT(*) FROM {entity}") for entity in ENTITIES}
 
 
 def verify_pk_uniqueness(engine: Engine, entity: str) -> bool:
+    """Return True when an entity has no duplicate primary keys."""
     pk = PRIMARY_KEYS[entity]
     with engine.connect() as connection:
         duplicates = _count(
@@ -465,6 +468,7 @@ def verify_pk_uniqueness(engine: Engine, entity: str) -> bool:
 def verify_fk_integrity(
     engine: Engine, child: str, column: str, parent: str, parent_pk: str
 ) -> int:
+    """Return the number of orphaned child rows for one foreign key."""
     with engine.connect() as connection:
         return _count(
             connection,

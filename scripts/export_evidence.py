@@ -87,6 +87,7 @@ def _read_text(path: Path) -> str:
 
 
 def export() -> None:
+    """Copy sanitized evidence artifacts into docs/evidence."""
     EVIDENCE_DIR.mkdir(parents=True, exist_ok=True)
     exported: list[str] = []
     for source_name, destination_name, kind in FILES:

@@ -246,6 +246,7 @@ class Verifier:
 
 
 def parse_args() -> argparse.Namespace:
+    """Parse command-line options."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--expected",
@@ -267,6 +268,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> int:
+    """Verify a run against the expected contract and write JSON."""
     args = parse_args()
     expected = json.loads(args.expected.read_text(encoding="utf-8"))
     verifier = Verifier(expected, args.db_path, args.run_id)

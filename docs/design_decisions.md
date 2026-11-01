@@ -260,8 +260,8 @@ implementation now:
 - avoids per-row DataFrame extraction in rejection construction.
 
 A naive row-wise reference remains in `src/deduplication.py` for benchmarking and
-equivalence testing. Medians of three runs on the reference machine: 9.06x
-faster at 10k rows and 9.11x at 100k, with equivalent outputs. Peak traced Python
+equivalence testing. Medians of three runs on the reference machine: 12.75x
+faster at 10k rows and 9.20x at 100k, with equivalent outputs. Peak traced Python
 allocation at 100k was 82.77 MB vectorised versus 67.21 MB naive, a reasonable
 time-for-memory trade-off documented in `docs/performance.md`. End-to-end runs
 are recorded for the 79-row small batch and 10k/100k batches, not only the dedup

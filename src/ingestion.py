@@ -193,4 +193,5 @@ def ingest_batch(
 
 
 def lineage_columns() -> tuple[str, ...]:
+    """Return the ingestion lineage column names."""
     return INGEST_LINEAGE_COLUMNS
