@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from types import SimpleNamespace
 
 import pandas as pd
@@ -33,6 +34,26 @@ def test_missing_source_file_fails_without_publishing(small_environment: SimpleN
     assert counts["quarantine"] == 0
     assert counts["record_history"] == 0
     assert counts["pipeline_runs"] == 1
+
+
+def test_database_initialization_failure_writes_failure_report(
+    small_environment: SimpleNamespace, monkeypatch
+) -> None:
+    import src.pipeline as pipeline
+
+    def fail_initialization(engine) -> None:
+        raise OperationalError("PRAGMA foreign_keys=ON", {}, Exception("database is locked"))
+
+    monkeypatch.setattr(pipeline, "init_db", fail_initialization)
+    result = run_pipeline(settings=small_environment.settings, run_id="test-init-failure")
+
+    assert result.status == "FAILED"
+    assert "database is locked" in result.error
+    failure_report = result.artifacts["failure_report"]
+    assert failure_report.exists()
+    report = json.loads(failure_report.read_text(encoding="utf-8"))
+    assert report["run_id"] == "test-init-failure"
+    assert "database is locked" in report["error"]
 
 
 def test_schema_drift_fails_without_publishing(small_environment: SimpleNamespace) -> None:

@@ -638,19 +638,19 @@ def run_pipeline(
         source_dir,
         settings.db_url,
     )
-    engine = get_engine(settings.db_url)
-    init_db(engine)
     ctx = PipelineContext(
         settings=settings,
         run_id=run_id,
         source_dir=source_dir,
         entity_list=entity_list,
         monitor=monitor,
-        engine=engine,
+        engine=None,
     )
     state = PipelineState()
 
     try:
+        ctx.engine = get_engine(settings.db_url)
+        init_db(ctx.engine)
         _ingest_stage(ctx, state)
         _validate_stage(ctx, state)
         _enforce_integrity_stage(ctx, state)
