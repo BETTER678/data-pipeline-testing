@@ -1,0 +1,301 @@
+{
+  "dataset": "small",
+  "seed": 42,
+  "source_rows_total": 79,
+  "entities": {
+    "customers": {
+      "source_rows": 13,
+      "valid_rows": 7,
+      "rejected_rows": 3,
+      "duplicate_rows": 3,
+      "duplicate_rule_counts": {
+        "DEDUP_EXACT": 1,
+        "DEDUP_SUPERSEDED": 2
+      },
+      "canonical_ids": [
+        "CUST-001",
+        "CUST-002",
+        "CUST-003",
+        "CUST-004",
+        "CUST-005",
+        "CUST-006",
+        "CUST-009"
+      ],
+      "rejected_ids": [
+        "CUST-007",
+        "CUST-008",
+        "CUST-010"
+      ],
+      "rejected_rules": {
+        "CUST-007": [
+          "REQUIRED_NAME"
+        ],
+        "CUST-008": [
+          "FORMAT_CREATED_AT"
+        ],
+        "CUST-010": [
+          "TEMPORAL_UPDATED_AT"
+        ]
+      },
+      "canonical_overrides": {
+        "CUST-002": {
+          "email": "bob.new@example.com"
+        },
+        "CUST-009": {
+          "email": "henry@example.com"
+        }
+      }
+    },
+    "products": {
+      "source_rows": 10,
+      "valid_rows": 4,
+      "rejected_rows": 5,
+      "duplicate_rows": 1,
+      "duplicate_rule_counts": {
+        "DEDUP_EXACT": 1
+      },
+      "canonical_ids": [
+        "PROD-001",
+        "PROD-002",
+        "PROD-003",
+        "PROD-004"
+      ],
+      "rejected_ids": [
+        "PROD-005",
+        "PROD-006",
+        "PROD-007",
+        "PROD-008",
+        "PROD-009"
+      ],
+      "rejected_rules": {
+        "PROD-005": [
+          "RANGE_UNIT_PRICE"
+        ],
+        "PROD-006": [
+          "REQUIRED_NAME"
+        ],
+        "PROD-007": [
+          "TYPE_UNIT_PRICE"
+        ],
+        "PROD-008": [
+          "DOMAIN_CURRENCY"
+        ],
+        "PROD-009": [
+          "REQUIRED_UPDATED_AT"
+        ]
+      }
+    },
+    "orders": {
+      "source_rows": 17,
+      "valid_rows": 6,
+      "rejected_rows": 8,
+      "duplicate_rows": 3,
+      "duplicate_rule_counts": {
+        "DEDUP_EXACT": 1,
+        "DEDUP_SUPERSEDED": 2
+      },
+      "canonical_ids": [
+        "ORD-1001",
+        "ORD-1002",
+        "ORD-1003",
+        "ORD-1004",
+        "ORD-1005",
+        "ORD-1014"
+      ],
+      "rejected_ids": [
+        "ORD-1006",
+        "ORD-1007",
+        "ORD-1008",
+        "ORD-1009",
+        "ORD-1010",
+        "ORD-1011",
+        "ORD-1012",
+        "ORD-1013"
+      ],
+      "rejected_rules": {
+        "ORD-1006": [
+          "FK_CUSTOMER_ID"
+        ],
+        "ORD-1007": [
+          "BUSINESS_ORDER_TOTAL_MISMATCH"
+        ],
+        "ORD-1008": [
+          "DOMAIN_STATUS"
+        ],
+        "ORD-1009": [
+          "FORMAT_ORDER_DATE"
+        ],
+        "ORD-1010": [
+          "BUSINESS_ORDER_WITHOUT_ITEMS"
+        ],
+        "ORD-1011": [
+          "TEMPORAL_UPDATED_AT"
+        ],
+        "ORD-1012": [
+          "RANGE_TOTAL_AMOUNT"
+        ],
+        "ORD-1013": [
+          "FK_CUSTOMER_ID"
+        ]
+      },
+      "canonical_overrides": {
+        "ORD-1005": {
+          "status": "SHIPPED"
+        },
+        "ORD-1014": {
+          "status": "PAID"
+        }
+      }
+    },
+    "order_items": {
+      "source_rows": 21,
+      "valid_rows": 8,
+      "rejected_rows": 12,
+      "duplicate_rows": 1,
+      "duplicate_rule_counts": {
+        "DEDUP_EXACT": 1
+      },
+      "canonical_ids": [
+        "ITEM-1001",
+        "ITEM-1002",
+        "ITEM-1003",
+        "ITEM-1004",
+        "ITEM-1005",
+        "ITEM-1006",
+        "ITEM-1011",
+        "ITEM-1105"
+      ],
+      "rejected_ids": [
+        "ITEM-1007",
+        "ITEM-1008",
+        "ITEM-1009",
+        "ITEM-1010",
+        "ITEM-1100",
+        "ITEM-1101",
+        "ITEM-1102",
+        "ITEM-1103",
+        "ITEM-1104",
+        "ITEM-1106",
+        "ITEM-1109",
+        "ITEM-1110"
+      ],
+      "rejected_rules": {
+        "ITEM-1007": [
+          "FK_ORDER_ID"
+        ],
+        "ITEM-1008": [
+          "FK_ORDER_ID"
+        ],
+        "ITEM-1009": [
+          "FK_ORDER_ID"
+        ],
+        "ITEM-1010": [
+          "FK_ORDER_ID"
+        ],
+        "ITEM-1100": [
+          "RANGE_QUANTITY"
+        ],
+        "ITEM-1101": [
+          "TYPE_QUANTITY"
+        ],
+        "ITEM-1102": [
+          "FK_PRODUCT_ID"
+        ],
+        "ITEM-1103": [
+          "FK_ORDER_ID"
+        ],
+        "ITEM-1104": [
+          "RANGE_QUANTITY"
+        ],
+        "ITEM-1106": [
+          "TYPE_QUANTITY"
+        ],
+        "ITEM-1109": [
+          "REQUIRED_QUANTITY"
+        ],
+        "ITEM-1110": [
+          "REQUIRED_PRODUCT_ID"
+        ]
+      }
+    },
+    "payments": {
+      "source_rows": 18,
+      "valid_rows": 7,
+      "rejected_rows": 9,
+      "duplicate_rows": 2,
+      "duplicate_rule_counts": {
+        "DEDUP_EXACT": 1,
+        "DEDUP_SUPERSEDED": 1
+      },
+      "canonical_ids": [
+        "PAY-2001",
+        "PAY-2002",
+        "PAY-2003",
+        "PAY-2004",
+        "PAY-2005",
+        "PAY-2015",
+        "PAY-2016"
+      ],
+      "rejected_ids": [
+        "PAY-2006",
+        "PAY-2007",
+        "PAY-2008",
+        "PAY-2009",
+        "PAY-2010",
+        "PAY-2012",
+        "PAY-2013",
+        "PAY-2014",
+        "PAY-2018"
+      ],
+      "rejected_rules": {
+        "PAY-2006": [
+          "BUSINESS_PAYMENT_MISMATCH"
+        ],
+        "PAY-2007": [
+          "TYPE_AMOUNT"
+        ],
+        "PAY-2008": [
+          "FK_ORDER_ID"
+        ],
+        "PAY-2009": [
+          "REQUIRED_PAYMENT_DATE"
+        ],
+        "PAY-2010": [
+          "DOMAIN_STATUS"
+        ],
+        "PAY-2012": [
+          "FORMAT_PAYMENT_DATE"
+        ],
+        "PAY-2013": [
+          "FK_ORDER_ID"
+        ],
+        "PAY-2014": [
+          "RANGE_AMOUNT"
+        ],
+        "PAY-2018": [
+          "TEMPORAL_UPDATED_AT"
+        ]
+      },
+      "canonical_overrides": {
+        "PAY-2016": {
+          "status": "REFUNDED"
+        }
+      }
+    }
+  },
+  "target_counts": {
+    "customers": 7,
+    "products": 4,
+    "orders": 6,
+    "order_items": 8,
+    "payments": 7
+  },
+  "target_aggregates": {
+    "order_total_sum": 200217.49,
+    "line_total_sum": 200217.49,
+    "captured_payment_sum": 200217.49
+  },
+  "expected_status": "PARTIAL_SUCCESS",
+  "expected_quarantine_rows": 37,
+  "expected_history_rows": 10
+}

@@ -1,0 +1,99 @@
+{
+  "database": "<project>/data/processed/warehouse.db",
+  "row_counts": {
+    "customers": 7,
+    "products": 4,
+    "orders": 6,
+    "order_items": 8,
+    "payments": 7
+  },
+  "pk_duplicate_groups": {
+    "customers": 0,
+    "products": 0,
+    "orders": 0,
+    "order_items": 0,
+    "payments": 0
+  },
+  "foreign_key_check": [],
+  "orphans": {
+    "orders.customer_id": 0,
+    "order_items.order_id": 0,
+    "order_items.product_id": 0,
+    "payments.order_id": 0
+  },
+  "aggregates": {
+    "order_total_sum": 200217.49,
+    "line_total_sum": 200217.49,
+    "captured_payment_sum": 200217.49
+  },
+  "audit": {
+    "quarantine_rows": 37,
+    "record_history_rows": 10,
+    "quarantine_occurrence_range": [
+      2,
+      2
+    ],
+    "history_occurrence_range": [
+      2,
+      2
+    ]
+  },
+  "pipeline_runs": [
+    {
+      "run_id": "demo-small-001",
+      "status": "PARTIAL_SUCCESS",
+      "input_rows": 79,
+      "rejected_rows": 37,
+      "duplicate_rows": 10,
+      "published_rows": 32,
+      "unchanged_rows": 0
+    },
+    {
+      "run_id": "demo-small-002",
+      "status": "PARTIAL_SUCCESS",
+      "input_rows": 79,
+      "rejected_rows": 37,
+      "duplicate_rows": 10,
+      "published_rows": 0,
+      "unchanged_rows": 32
+    }
+  ],
+  "quarantine_sample": [
+    {
+      "entity": "customers",
+      "source_record_id": "CUST-007",
+      "rejection_rules": "[\"REQUIRED_NAME\"]",
+      "last_run_id": "demo-small-002"
+    },
+    {
+      "entity": "customers",
+      "source_record_id": "CUST-008",
+      "rejection_rules": "[\"FORMAT_CREATED_AT\"]",
+      "last_run_id": "demo-small-002"
+    },
+    {
+      "entity": "customers",
+      "source_record_id": "CUST-010",
+      "rejection_rules": "[\"TEMPORAL_UPDATED_AT\"]",
+      "last_run_id": "demo-small-002"
+    },
+    {
+      "entity": "order_items",
+      "source_record_id": "ITEM-1007",
+      "rejection_rules": "[\"FK_ORDER_ID\"]",
+      "last_run_id": "demo-small-002"
+    },
+    {
+      "entity": "order_items",
+      "source_record_id": "ITEM-1008",
+      "rejection_rules": "[\"FK_ORDER_ID\"]",
+      "last_run_id": "demo-small-002"
+    }
+  ],
+  "integrity": {
+    "unique_pk": true,
+    "no_fk_violations": true,
+    "aggregates_match": true,
+    "audit_not_appended_on_rerun": true
+  }
+}

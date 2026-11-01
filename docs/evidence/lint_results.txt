@@ -1,0 +1,6 @@
+$ .\.venv\Scripts\python.exe -m ruff check .
+All checks passed!
+
+$ .\.venv\Scripts\python.exe -m black --check .
+All done! \u2728 \U0001f370 \u2728
+39 files would be left unchanged.

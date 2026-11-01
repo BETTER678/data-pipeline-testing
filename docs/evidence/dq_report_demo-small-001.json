@@ -1,0 +1,174 @@
+{
+  "run_id": "demo-small-001",
+  "generated_at": "2026-11-01T07:54:45.835094+00:00",
+  "status": "WARN",
+  "totals": {
+    "source_rows": 79,
+    "rejected_rows": 37,
+    "duplicate_rows": 10,
+    "valid_rows": 32,
+    "overall_pass_rate_pct": 40.51
+  },
+  "entities": {
+    "customers": {
+      "source_rows": 13,
+      "valid_rows": 7,
+      "rejected_rows": 3,
+      "duplicate_rows": 3,
+      "pass_rate_pct": 53.85,
+      "rejection_rate_pct": 23.08,
+      "rule_counts": {
+        "FORMAT_CREATED_AT": 1,
+        "REQUIRED_NAME": 1,
+        "TEMPORAL_UPDATED_AT": 1
+      },
+      "rule_descriptions": {
+        "FORMAT_CREATED_AT": "Customer creation timestamp was not ISO-8601.",
+        "REQUIRED_NAME": "A required customer/product name was blank.",
+        "TEMPORAL_UPDATED_AT": "updated_at was earlier than the event date."
+      },
+      "null_counts": {
+        "customer_id": 0,
+        "name": 1,
+        "email": 2,
+        "country": 0,
+        "created_at": 0,
+        "updated_at": 0
+      }
+    },
+    "products": {
+      "source_rows": 10,
+      "valid_rows": 4,
+      "rejected_rows": 5,
+      "duplicate_rows": 1,
+      "pass_rate_pct": 40.0,
+      "rejection_rate_pct": 50.0,
+      "rule_counts": {
+        "DOMAIN_CURRENCY": 1,
+        "RANGE_UNIT_PRICE": 1,
+        "REQUIRED_NAME": 1,
+        "REQUIRED_UPDATED_AT": 1,
+        "TYPE_UNIT_PRICE": 1
+      },
+      "rule_descriptions": {
+        "DOMAIN_CURRENCY": "Currency was not one of USD/EUR/GBP.",
+        "RANGE_UNIT_PRICE": "Unit price was outside 0..100,000.",
+        "REQUIRED_NAME": "A required customer/product name was blank.",
+        "REQUIRED_UPDATED_AT": "A required version timestamp was blank.",
+        "TYPE_UNIT_PRICE": "Unit price was not a decimal number."
+      },
+      "null_counts": {
+        "product_id": 0,
+        "name": 1,
+        "category": 0,
+        "unit_price": 0,
+        "currency": 0,
+        "updated_at": 1
+      }
+    },
+    "orders": {
+      "source_rows": 17,
+      "valid_rows": 6,
+      "rejected_rows": 8,
+      "duplicate_rows": 3,
+      "pass_rate_pct": 35.29,
+      "rejection_rate_pct": 47.06,
+      "rule_counts": {
+        "BUSINESS_ORDER_TOTAL_MISMATCH": 1,
+        "BUSINESS_ORDER_WITHOUT_ITEMS": 1,
+        "DOMAIN_STATUS": 1,
+        "FK_CUSTOMER_ID": 2,
+        "FORMAT_ORDER_DATE": 1,
+        "RANGE_TOTAL_AMOUNT": 1,
+        "TEMPORAL_UPDATED_AT": 1
+      },
+      "rule_descriptions": {
+        "BUSINESS_ORDER_TOTAL_MISMATCH": "Order total != sum of accepted line totals.",
+        "BUSINESS_ORDER_WITHOUT_ITEMS": "An order had no accepted line items.",
+        "DOMAIN_STATUS": "Status was not in the entity's allowed domain.",
+        "FK_CUSTOMER_ID": "Order references a customer that was not accepted.",
+        "FORMAT_ORDER_DATE": "Order date was not ISO-8601 with timezone.",
+        "RANGE_TOTAL_AMOUNT": "Order total was negative or above the configured cap.",
+        "TEMPORAL_UPDATED_AT": "updated_at was earlier than the event date."
+      },
+      "null_counts": {
+        "order_id": 0,
+        "customer_id": 0,
+        "order_date": 0,
+        "status": 0,
+        "total_amount": 0,
+        "currency": 0,
+        "updated_at": 0
+      }
+    },
+    "order_items": {
+      "source_rows": 21,
+      "valid_rows": 8,
+      "rejected_rows": 12,
+      "duplicate_rows": 1,
+      "pass_rate_pct": 38.1,
+      "rejection_rate_pct": 57.14,
+      "rule_counts": {
+        "FK_ORDER_ID": 5,
+        "FK_PRODUCT_ID": 1,
+        "RANGE_QUANTITY": 2,
+        "REQUIRED_PRODUCT_ID": 1,
+        "REQUIRED_QUANTITY": 1,
+        "TYPE_QUANTITY": 2
+      },
+      "rule_descriptions": {
+        "FK_ORDER_ID": "Item/payment references an order that was not accepted.",
+        "FK_PRODUCT_ID": "Order item references a product that was not accepted.",
+        "RANGE_QUANTITY": "Quantity was outside 1..10,000.",
+        "REQUIRED_PRODUCT_ID": "A required order-item product reference was blank.",
+        "REQUIRED_QUANTITY": "A required order-item quantity was blank.",
+        "TYPE_QUANTITY": "Quantity was not an integer."
+      },
+      "null_counts": {
+        "item_id": 0,
+        "order_id": 0,
+        "product_id": 1,
+        "quantity": 1,
+        "unit_price": 0,
+        "updated_at": 0
+      }
+    },
+    "payments": {
+      "source_rows": 18,
+      "valid_rows": 7,
+      "rejected_rows": 9,
+      "duplicate_rows": 2,
+      "pass_rate_pct": 38.89,
+      "rejection_rate_pct": 50.0,
+      "rule_counts": {
+        "BUSINESS_PAYMENT_MISMATCH": 1,
+        "DOMAIN_STATUS": 1,
+        "FK_ORDER_ID": 2,
+        "FORMAT_PAYMENT_DATE": 1,
+        "RANGE_AMOUNT": 1,
+        "REQUIRED_PAYMENT_DATE": 1,
+        "TEMPORAL_UPDATED_AT": 1,
+        "TYPE_AMOUNT": 1
+      },
+      "rule_descriptions": {
+        "BUSINESS_PAYMENT_MISMATCH": "Captured payment differs from order total by >1%.",
+        "DOMAIN_STATUS": "Status was not in the entity's allowed domain.",
+        "FK_ORDER_ID": "Item/payment references an order that was not accepted.",
+        "FORMAT_PAYMENT_DATE": "Payment date was not ISO-8601 with timezone.",
+        "RANGE_AMOUNT": "Payment amount must be greater than zero.",
+        "REQUIRED_PAYMENT_DATE": "A required payment date was blank.",
+        "TEMPORAL_UPDATED_AT": "updated_at was earlier than the event date.",
+        "TYPE_AMOUNT": "Payment amount was not a decimal number."
+      },
+      "null_counts": {
+        "payment_id": 0,
+        "order_id": 0,
+        "amount": 0,
+        "payment_method": 0,
+        "payment_date": 1,
+        "status": 0,
+        "updated_at": 0
+      }
+    }
+  }
+}

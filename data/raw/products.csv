@@ -1,0 +1,11 @@
+product_id,name,category,unit_price,currency,updated_at
+PROD-001,Wireless Mouse,Electronics,25.50,USD,2025-12-01T09:00:00Z
+PROD-002,Mechanical Keyboard,Electronics,89.99,USD,2025-12-01T09:00:00Z
+PROD-003,Sticker Pack,Accessories,0.00,USD,2025-12-01T09:00:00Z
+PROD-004,Luxury Pen,Luxury,100000.00,USD,2025-12-01T09:00:00Z
+PROD-005,Negative Price,Bad,-0.01,USD,2025-12-01T09:00:00Z
+PROD-006,,Bad,10.00,USD,2025-12-01T09:00:00Z
+PROD-007,Bad Price,Bad,abc,USD,2025-12-01T09:00:00Z
+PROD-008,Bad Currency,Bad,10.00,XYZ,2025-12-01T09:00:00Z
+PROD-009,Missing Version,Bad,10.00,USD,
+PROD-001,Wireless Mouse,Electronics,25.50,USD,2025-12-01T09:00:00Z

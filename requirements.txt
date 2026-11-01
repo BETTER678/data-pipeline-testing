@@ -1,0 +1,19 @@
+# Runtime dependencies are pinned to the versions used for the recorded
+# test, reconciliation and benchmark runs in this repository.
+# Python 3.11+ (the reference environment was Python 3.13.15).
+
+pandas==2.3.3
+numpy==2.3.5
+
+SQLAlchemy==2.0.44
+
+pandera==0.35.0
+
+pytest==8.4.2
+pytest-cov==7.0.0
+
+Faker==37.12.0
+
+matplotlib==3.10.7
+
+python-dateutil==2.9.0.post0

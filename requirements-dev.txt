@@ -1,0 +1,5 @@
+# Development-only tooling. Runtime dependencies remain in requirements.txt.
+-r requirements.txt
+
+black==25.9.0
+ruff==0.14.0

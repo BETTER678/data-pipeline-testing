@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environment
+.venv/
+venv/
+
+# Generated warehouse and run artifacts. Only docs/evidence/ is curated for review.
+# The expected-answer contract under data/expected/ is deliberately tracked so a
+# fresh checkout can run the regression test that compares it to the generator.
+data/processed/
+data/rejected/
+data/benchmark/
+reports/
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+.coverage.*
+
+# Curated submission evidence is intentionally tracked. Generated reports remain
+# ignored; docs/evidence is refreshed with scripts/export_evidence.py.
+!docs/evidence/
+!docs/evidence/**
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

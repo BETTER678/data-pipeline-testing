@@ -1,0 +1,24 @@
+{
+  "run_id": "demo-small-002",
+  "status": "PARTIAL_SUCCESS",
+  "input_rows": 79,
+  "valid_rows": 32,
+  "rejected_rows": 37,
+  "duplicate_rows": 10,
+  "published_rows": 0,
+  "unchanged_rows": 32,
+  "late_arriving_rows": 0,
+  "duration_seconds": 1.9663,
+  "error": null,
+  "artifacts": {
+    "processed": "{'customers': WindowsPath('<project>/data/processed/demo-small-002/customers.csv'), 'products': WindowsPath('<project>/data/processed/demo-small-002/products.csv'), 'orders': WindowsPath('<project>/data/processed/demo-small-002/orders.csv'), 'order_items': WindowsPath('<project>/data/processed/demo-small-002/order_items.csv'), 'payments': WindowsPath('<project>/data/processed/demo-small-002/payments.csv')}",
+    "quarantine_csv": "<project>\\data\\rejected\\quarantine_demo-small-002.csv",
+    "duplicates_csv": "<project>\\data\\rejected\\duplicates_demo-small-002.csv",
+    "reconciliation": "{'json': WindowsPath('<project>/reports/reconciliation_demo-small-002.json'), 'csv': WindowsPath('<project>/reports/reconciliation_demo-small-002.csv')}",
+    "dq_report": "{'json': WindowsPath('<project>/reports/dq_report_demo-small-002.json'), 'csv': WindowsPath('<project>/reports/dq_report_demo-small-002.csv'), 'chart': WindowsPath('<project>/reports/dq_summary_demo-small-002.png')}",
+    "run_report": "<project>\\reports\\run_report_demo-small-002.json",
+    "history_rows": "10",
+    "quarantine_rows": "37",
+    "publish_attempts": "1"
+  }
+}

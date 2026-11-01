@@ -1,0 +1,302 @@
+{
+  "run_id": "demo-small-002",
+  "generated_at": "2026-11-01T07:54:55.184720+00:00",
+  "entities": {
+    "customers": {
+      "source_rows": 13,
+      "rejected_rows": 3,
+      "duplicate_rows": 3,
+      "valid_rows": 7,
+      "published_rows": 0,
+      "unchanged_rows": 7,
+      "late_arriving_rows": 0,
+      "input_accounted": 13,
+      "valid_accounted": 7,
+      "unaccounted_rows": 0,
+      "valid_unaccounted_rows": 0,
+      "balanced": true,
+      "target_rows": 7
+    },
+    "products": {
+      "source_rows": 10,
+      "rejected_rows": 5,
+      "duplicate_rows": 1,
+      "valid_rows": 4,
+      "published_rows": 0,
+      "unchanged_rows": 4,
+      "late_arriving_rows": 0,
+      "input_accounted": 10,
+      "valid_accounted": 4,
+      "unaccounted_rows": 0,
+      "valid_unaccounted_rows": 0,
+      "balanced": true,
+      "target_rows": 4
+    },
+    "orders": {
+      "source_rows": 17,
+      "rejected_rows": 8,
+      "duplicate_rows": 3,
+      "valid_rows": 6,
+      "published_rows": 0,
+      "unchanged_rows": 6,
+      "late_arriving_rows": 0,
+      "input_accounted": 17,
+      "valid_accounted": 6,
+      "unaccounted_rows": 0,
+      "valid_unaccounted_rows": 0,
+      "balanced": true,
+      "target_rows": 6
+    },
+    "order_items": {
+      "source_rows": 21,
+      "rejected_rows": 12,
+      "duplicate_rows": 1,
+      "valid_rows": 8,
+      "published_rows": 0,
+      "unchanged_rows": 8,
+      "late_arriving_rows": 0,
+      "input_accounted": 21,
+      "valid_accounted": 8,
+      "unaccounted_rows": 0,
+      "valid_unaccounted_rows": 0,
+      "balanced": true,
+      "target_rows": 8
+    },
+    "payments": {
+      "source_rows": 18,
+      "rejected_rows": 9,
+      "duplicate_rows": 2,
+      "valid_rows": 7,
+      "published_rows": 0,
+      "unchanged_rows": 7,
+      "late_arriving_rows": 0,
+      "input_accounted": 18,
+      "valid_accounted": 7,
+      "unaccounted_rows": 0,
+      "valid_unaccounted_rows": 0,
+      "balanced": true,
+      "target_rows": 7
+    }
+  },
+  "totals": {
+    "input_rows": 79,
+    "rejected_rows": 37,
+    "duplicate_rows": 10,
+    "valid_rows": 32,
+    "published_rows": 0,
+    "unchanged_rows": 32,
+    "late_arriving_rows": 0,
+    "target_rows": 32
+  },
+  "source_accounting_balanced": true,
+  "target_checks": {
+    "checked_at": "2026-11-01T07:54:55.182716+00:00",
+    "ok": true,
+    "failures": [],
+    "row_counts": {
+      "customers": 7,
+      "products": 4,
+      "orders": 6,
+      "order_items": 8,
+      "payments": 7
+    },
+    "checks": {
+      "customers.pk_unique": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "customers.customer_id must be unique"
+      },
+      "customers.required_fields": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "required columns must not be null/blank"
+      },
+      "customers.ranges": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "numeric business ranges"
+      },
+      "products.pk_unique": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "products.product_id must be unique"
+      },
+      "products.required_fields": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "required columns must not be null/blank"
+      },
+      "products.ranges": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "numeric business ranges"
+      },
+      "orders.pk_unique": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "orders.order_id must be unique"
+      },
+      "orders.required_fields": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "required columns must not be null/blank"
+      },
+      "orders.ranges": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "numeric business ranges"
+      },
+      "order_items.pk_unique": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "order_items.item_id must be unique"
+      },
+      "order_items.required_fields": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "required columns must not be null/blank"
+      },
+      "order_items.ranges": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "numeric business ranges"
+      },
+      "payments.pk_unique": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "payments.payment_id must be unique"
+      },
+      "payments.required_fields": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "required columns must not be null/blank"
+      },
+      "payments.ranges": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "numeric business ranges"
+      },
+      "order_items.quantity_bounds": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": ""
+      },
+      "order_items.unit_price_bounds": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": ""
+      },
+      "payments.amount_bounds": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": ""
+      },
+      "orders.customer_id_fk": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "orders.customer_id -> customers.customer_id"
+      },
+      "order_items.order_id_fk": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "order_items.order_id -> orders.order_id"
+      },
+      "order_items.product_id_fk": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "order_items.product_id -> products.product_id"
+      },
+      "payments.order_id_fk": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "payments.order_id -> orders.order_id"
+      },
+      "timestamps.format": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "target timestamps must be ISO-8601 UTC"
+      },
+      "orders.total_matches_items": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "order total must equal sum of accepted line totals"
+      },
+      "orders.have_items": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": ""
+      },
+      "payments.no_overpayment": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": true,
+        "detail": "captured payments per order must not exceed order total"
+      },
+      "payments.underpaid_orders": {
+        "value": 0,
+        "threshold": 0,
+        "passed": true,
+        "hard": false,
+        "detail": "informational: zero-total/unpaid orders are legitimate"
+      }
+    },
+    "aggregates": {
+      "order_total_sum": 200217.49,
+      "line_total_sum": 200217.49,
+      "captured_payment_sum": 200217.49
+    }
+  },
+  "target_checks_ok": true,
+  "ok": true
+}

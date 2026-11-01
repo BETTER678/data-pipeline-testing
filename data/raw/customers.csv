@@ -1,0 +1,14 @@
+customer_id,name,email,country,created_at,updated_at
+CUST-001,Alice Smith,alice@example.com,US,2025-12-01T09:00:00Z,2025-12-01T09:00:00Z
+CUST-002,Bob Jones,bob@example.com,GB,2025-12-02T10:00:00Z,2025-12-03T11:00:00Z
+CUST-003,Carol White,carol@example.com,DE,2026-01-01T08:30:00Z,2026-01-01T08:30:00Z
+CUST-004,Dan Brown,,US,2025-12-05T09:00:00Z,2025-12-05T09:00:00Z
+CUST-005,Eve Black,eve@example.com,FR,2025-12-06T09:00:00Z,2025-12-06T09:00:00Z
+CUST-006,Frank Green,,US,2025-12-07T09:00:00Z,2025-12-07T09:00:00Z
+CUST-007,,bad-name@example.com,US,2025-12-08T09:00:00Z,2025-12-08T09:00:00Z
+CUST-008,Grace Hall,grace@example.com,US,not-a-timestamp,2025-12-09T09:00:00Z
+CUST-009,Henry Lee,henry@example.com,CA,2025-12-10T09:00:00Z,2026-01-20T09:00:00Z
+CUST-009,Henry Lee,henry.old@example.com,CA,2025-12-10T09:00:00Z,2025-12-15T09:00:00Z
+CUST-010,Ivy King,ivy@example.com,US,2026-02-01T09:00:00Z,2026-01-01T09:00:00Z
+CUST-002,Bob Jones,bob@example.com,GB,2025-12-02T10:00:00Z,2025-12-03T11:00:00Z
+CUST-002,Bob Jones,bob.new@example.com,GB,2025-12-02T10:00:00Z,2025-12-05T12:00:00Z
